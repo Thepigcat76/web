@@ -43,6 +43,7 @@
 </html>
 
 <script>
+    const stack = new Map();
     const textarea = document.getElementById('code-area');
     const vmTable = document.getElementById('vm-table');
     const vmTableAddButton = document.getElementById("vm-table-add-button");
@@ -86,11 +87,14 @@
     });
 
     function stackInsert(offset, val) {
-        vmTable.rows[(sp + 1)].cells[0].textContent = '' + offset;
-        vmTable.rows[(sp + 1)].cells[1].textContent = '' + val;
-        const newRow = vmTable.insertRow();
-        newRow.insertCell(0);
-        newRow.insertCell(1);
-        sp++
+        vmTable.rows[(stack.size + 1)].cells[0].textContent = '' + offset;
+        vmTable.rows[(stack.size + 1)].cells[1].textContent = '' + val;
+        if (!stack.has(sp)) {
+            const newRow = vmTable.insertRow();
+            newRow.insertCell(0);
+            newRow.insertCell(1);
+        }
+        stack.set(sp, val);
+        sp += offset;
     }
 </script>
